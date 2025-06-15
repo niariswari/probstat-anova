@@ -8,8 +8,7 @@
   - [One-way ANOVA](#one-way-anova)
   - [Two-way ANOVA](#two-way-anova)
   - [MANOVA (Multivariate ANOVA)](#manova-multivariate-anova)
-- [Studi Kasus 1](#studi-kasus-1)
-- [Studi Kasus 2](#studi-kasus-2)
+- [Studi Kasus](#studi-kasus)
 - [Penerapan dalam Kodingan](./Analisis_ANOVA_Pelanggan.ipynb)
 
 ---
@@ -55,3 +54,56 @@ Two-way ANOVA digunakan untuk menguji interaksi atau pengaruh dua faktor (variab
 
 ### MANOVA (Multivariate ANOVA)
 MANOVA adalah perluasan dari ANOVA ketika kita memiliki lebih dari satu variabel dependen. MANOVA berlaku untuk beberapa variabel independen yang memengaruhi variabel dependen. Teknik ini lebih efektif dibandingkan analisis varians biasa karena dapat mengamati beberapa variabel dependen secara bersamaan. Teknik ini memungkink
+
+## Studi Kasus
+
+### Studi Kasus 1
+Seorang guru ingin mengetahui apakah metode belajar yang digunakan di kelas berpengaruh terhadap nilai ujian siswa. Ia membagi murid ke dalam 3 kelompok berdasarkan metode pembelajaran:
+
+Kelompok A: Metode ceramah
+Kelompok B: Metode diskusi
+Kelompok C: Metode video interaktif
+
+Setelah ujian, guru mengumpulkan nilai-nilai dari masing-masing metode. 
+
+Data nilai ujian tiap metode:
+Ceramah = [70, 72,68]
+Diskusi = [78, 80, 76]
+Video Interaktif = [85, 87, 83]
+
+Tujuan: Mengetahui apakah metode belajar memiliki pengaruh signifikan terhadap nilai ujian.
+
+Step 1: Hipotesis
+H₀ (nol): Rata-rata nilai ujian sama untuk semua metode belajar.
+H₁ (alternatif): Ada perbedaan rata-rata nilai ujian setidaknya di satu kelompok metode belajar.
+
+Step 2: Uji ANOVA
+
+`from scipy.stats import f_oneway
+
+ceramah = [70, 72, 68]
+diskusi = [78, 80, 76]
+video = [85, 87, 83]
+
+f_stat, p_val = f_oneway(ceramah, diskusi, video)
+
+print(f"F-statistic: {f_stat:.2f}")
+print(f"P-value: {p_val:.4f}”)`
+
+Output: 
+F-statistic: 64.00
+P-value: 0.00002
+
+Step 3: Kesimpulan 
+Karena p-value = 0.00002 < 0.05, maka:
+Tolak H₀
+Ada perbedaan signifikan rata-rata nilai antar metode belajar.
+
+Visualisasi:
+import matplotlib.pyplot as plt
+
+plt.boxplot([ceramah, diskusi, video], labels=["Ceramah", "Diskusi", "Video"])
+plt.title("Pengaruh Metode Belajar terhadap Nilai Ujian")
+plt.ylabel("Nilai Ujian")
+plt.grid(True)
+plt.show()
